@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Music - Dark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            background-color: #000;
+            padding: 20px;
+            border-right: 1px solid #333;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #fc3c44;
+        }
+
+        .nav-item {
+            padding: 10px 0;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: #fff;
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            background-color: #222;
+            border-radius: 20px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 90%;
+            outline: none;
+        }
+
+        .mood-match {
+            background: linear-gradient(135deg, #1e1e1e, #333);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-match h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .mood-match p {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .mood-btn {
+            background-color: #fc3c44;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .mood-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .playlists {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .playlist-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-5px);
+            background-color: #222;
+        }
+
+        .playlist-img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .playlist-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .playlist-desc {
+            color: #999;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .nav-item span {
+                display: none;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+            .search-bar {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .playlists {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fab fa-apple"></i> Music
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Browse</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-book"></i>
+            <span>Library</span>
+        </div>
+        <div class="nav-item" style="margin-top: 30px;">
+            <i class="fas fa-plus-circle"></i>
+            <span>Create Playlist</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Good afternoon</h1>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search artists, songs, albums">
+            </div>
+        </div>
+
+        <div class="mood-match">
+            <h2>Mood Match</h2>
+            <p>Based on your current time and activity, we'll find the perfect music for you right now.</p>
+            <button class="mood-btn" id="moodBtn">Match My Mood</button>
+            <div id="moodResult" style="margin-top: 15px;"></div>
+        </div>
+
+        <h2 style="margin-bottom: 20px;">Recently Played</h2>
+        <div class="playlists">
+            <div class="playlist-card">
+                <img src="chill_vibes.webp" class="playlist-img">
+                <div class="playlist-title">Chill Vibes</div>
+                <div class="playlist-desc">Relaxing beats for your downtime</div>
+            </div>
+            <div class="playlist-card">
+                <img src="deep_focus.jfif" class="playlist-img">
+                <div class="playlist-title">Deep Focus</div>
+                <div class="playlist-desc">Concentration enhancing tracks</div>
+            </div>
+            <div class="playlist-card">
+                <img src="workout.jfif" class="playlist-img">
+                <div class="playlist-title">Power Workout</div>
+                <div class="playlist-desc">High energy for your session</div>
+            </div>
+            <div class="playlist-card">
+                <img src="sleep.jpg" class="playlist-img">
+                <div class="playlist-title">Sleep Sounds</div>
+                <div class="playlist-desc">Wind down for better sleep</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const moodBtn = document.getElementById('moodBtn');
+        const moodResult = document.getElementById('moodResult');
+
+        const timeBasedSuggestions = {
+            morning: {
+                playlists: ['Morning Energy', 'Wake Up Happy', 'Sunrise Vibes'],
+                desc: 'Start your day right with these energizing tracks'
+            },
+            afternoon: {
+                playlists: ['Productive Focus', 'Afternoon Pick-Me-Up', 'Work From Home'],
+                desc: 'Stay productive with these focused tunes'
+            },
+            evening: {
+                playlists: ['Evening Chill', 'Sunset Sessions', 'Dinner Jazz'],
+                desc: 'Wind down with these relaxing selections'
+            },
+            night: {
+                playlists: ['Late Night Coding', 'Deep Sleep', 'Night Drive'],
+                desc: 'The perfect soundtrack for your night'
+            }
+        };
+
+        moodBtn.addEventListener('click', function() {
+            const hours = new Date().getHours();
+            let timeOfDay;
+
+            if (hours < 12) timeOfDay = 'morning';
+            else if (hours < 17) timeOfDay = 'afternoon';
+            else if (hours < 21) timeOfDay = 'evening';
+            else timeOfDay = 'night';
+
+            moodBtn.disabled = true;
+            moodBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Matching...';
+
+            setTimeout(() => {
+                const suggestion = timeBasedSuggestions[timeOfDay];
+                let html = `<p>It's ${timeOfDay} - ${suggestion.desc}</p><ul style="margin-top: 10px;">`;
+
+                suggestion.playlists.forEach(playlist => {
+                    html += `<li style="margin-bottom: 5px;">${playlist}</li>`;
+                });
+
+                html += `</ul><p style="margin-top: 10px; color: #fc3c44;">Try one of these playlists!</p>`;
+                moodResult.innerHTML = html;
+
+                moodBtn.disabled = false;
+                moodBtn.textContent = 'Match Again';
+            }, 1500);
+        });
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.nav-item.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
